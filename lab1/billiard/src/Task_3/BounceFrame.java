@@ -1,4 +1,4 @@
-package Task_2;
+package Task_3;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,12 +8,10 @@ public class BounceFrame extends JFrame {
     private final BallCanvas canvas;
     public static final int WIDTH = 450;
     public static final int HEIGHT = 350;
-    private static int caughtBalls = 0;
-    private static final JLabel caughtLabel = new JLabel("Caught: 0");
 
     public BounceFrame() {
         this.setSize(WIDTH, HEIGHT);
-        this.setTitle("Task_2.Bounce program");
+        this.setTitle("Task_3.Bounce program");
         this.canvas = new BallCanvas();
 
         System.out.println("In Frame Thread name = "
@@ -25,52 +23,57 @@ public class BounceFrame extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
 
-        JButton addHoleButton = new JButton("Add hole");
-        JButton addBallButton = new JButton("Add 1");
+        JButton addTenButton = new JButton("Add 10");
         JButton addHundredBallsButton = new JButton("Add 100");
+        JButton addThousandBallsButton = new JButton("Add 1000");
         JButton stopButton = new JButton("Stop");
 
-        addHoleButton.addActionListener(e -> {
-            Hole h = new Hole(canvas);
-            canvas.addHole(h);
-            canvas.repaint();
+        addTenButton.addActionListener(e -> {
+            for( int i = 0; i < 9; i++) {
+                addBall("blue");
+            }
+            addBall("red");
         });
 
-        addBallButton.addActionListener(e -> addBall());
-
         addHundredBallsButton.addActionListener(e -> {
-            for( int i = 0; i < 100; i++) {
-                addBall();
+            for( int i = 0; i < 99; i++) {
+                addBall("blue");
             }
+            addBall("red");
+        });
+
+        addThousandBallsButton.addActionListener(e -> {
+            for( int i = 0; i < 999; i++) {
+                addBall("blue");
+            }
+            addBall("red");
         });
 
         stopButton.addActionListener(e -> System.exit(0));
 
-        buttonPanel.add(addHoleButton);
-        buttonPanel.add(addBallButton);
+        buttonPanel.add(addTenButton);
         buttonPanel.add(addHundredBallsButton);
+        buttonPanel.add(addThousandBallsButton);
         buttonPanel.add(stopButton);
-        buttonPanel.add(caughtLabel);
 
         content.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void addBall() {
-        Ball b = new Ball(canvas);
+    public void addBall(String color) {
+        Ball b = new Ball(canvas, color);
         canvas.addBall(b);
 
         BallThread t = new BallThread(b);
+        if (color.equals("red")) {
+            t.setPriority(Thread.MAX_PRIORITY);
+        } else {
+            t.setPriority(Thread.MIN_PRIORITY);
+        }
         t.start();
-        b.setThread(t);
 
         canvas.repaint();
         System.out.println("Thread name = "
                 + Thread.currentThread().getName());
-    }
-
-    public static synchronized void addCaught() {
-        caughtBalls++;
-        caughtLabel.setText("Caught: " + caughtBalls);
     }
 
 }

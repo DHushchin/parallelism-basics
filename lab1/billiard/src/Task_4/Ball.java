@@ -1,4 +1,4 @@
-package Task_2;
+package Task_4;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -14,7 +14,7 @@ class Ball {
     private int dy = 2;
     private BallThread thread;
 
-    public Ball(Component c){
+    public Ball(Component c) {
         this.canvas = c;
 
         if (Math.random() < 0.5) {
@@ -27,9 +27,8 @@ class Ball {
     }
 
     public void draw (Graphics2D g2) {
-        g2.setColor(Color.darkGray);
-        g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
-
+        g2.setColor(Color.BLACK);
+        g2.fill(new Ellipse2D.Double(x, y, XSIZE, YSIZE));
     }
 
     public void move() {
@@ -75,6 +74,10 @@ class Ball {
 
     public void setThread (BallThread t){
         this.thread = t;
+    }
+
+    public BallThread getThread(){
+        return this.thread;
     }
 
     public void removeBall(Ball b){

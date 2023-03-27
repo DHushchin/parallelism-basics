@@ -1,8 +1,7 @@
-package Task_2;
+package Task_4;
 
 import javax.swing.*;
 import java.awt.*;
-
 
 public class BounceFrame extends JFrame {
     private final BallCanvas canvas;
@@ -10,10 +9,11 @@ public class BounceFrame extends JFrame {
     public static final int HEIGHT = 350;
     private static int caughtBalls = 0;
     private static final JLabel caughtLabel = new JLabel("Caught: 0");
+    private static BallThread prevThread = null;
 
     public BounceFrame() {
         this.setSize(WIDTH, HEIGHT);
-        this.setTitle("Task_2.Bounce program");
+        this.setTitle("Task_4.Bounce program");
         this.canvas = new BallCanvas();
 
         System.out.println("In Frame Thread name = "
@@ -27,7 +27,6 @@ public class BounceFrame extends JFrame {
 
         JButton addHoleButton = new JButton("Add hole");
         JButton addBallButton = new JButton("Add 1");
-        JButton addHundredBallsButton = new JButton("Add 100");
         JButton stopButton = new JButton("Stop");
 
         addHoleButton.addActionListener(e -> {
@@ -37,18 +36,10 @@ public class BounceFrame extends JFrame {
         });
 
         addBallButton.addActionListener(e -> addBall());
-
-        addHundredBallsButton.addActionListener(e -> {
-            for( int i = 0; i < 100; i++) {
-                addBall();
-            }
-        });
-
         stopButton.addActionListener(e -> System.exit(0));
 
         buttonPanel.add(addHoleButton);
         buttonPanel.add(addBallButton);
-        buttonPanel.add(addHundredBallsButton);
         buttonPanel.add(stopButton);
         buttonPanel.add(caughtLabel);
 
@@ -59,13 +50,21 @@ public class BounceFrame extends JFrame {
         Ball b = new Ball(canvas);
         canvas.addBall(b);
 
-        BallThread t = new BallThread(b);
+        BallThread t;
+        if (prevThread == null) {
+            t = new BallThread(b, null);
+        } else {
+            t = new BallThread(b, prevThread);
+        }
+
+
         t.start();
         b.setThread(t);
+        prevThread = t;
 
         canvas.repaint();
         System.out.println("Thread name = "
-                + Thread.currentThread().getName());
+                + t.getName());
     }
 
     public static synchronized void addCaught() {
