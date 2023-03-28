@@ -14,10 +14,8 @@ public class SymbolPrinterSync implements Runnable {
     @Override
     public void run() {
         try {
-            while (true){
+            while (!sync.isStop()) {
                 sync.printSymbol(controlValue, s);
-                if(sync.isStop())
-                    return;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

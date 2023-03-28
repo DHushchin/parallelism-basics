@@ -26,7 +26,7 @@ public class Synchronizer {
             wait();
         }
 
-        if(isStop()){
+        if(isStop()) {
             notifyAll();
             return;
         }

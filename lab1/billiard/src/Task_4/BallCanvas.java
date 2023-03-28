@@ -21,15 +21,6 @@ public class BallCanvas extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        if (balls.size() > 1) {
-            // make ball thread to wait for previous thread to finish
-            try {
-                balls.get(balls.size() - 2).getThread().join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
         for (Ball b: balls) {
             b.draw(g2);
         }
@@ -40,4 +31,5 @@ public class BallCanvas extends JPanel {
 
         balls.removeIf(Ball::isInHole);
     }
+
 }

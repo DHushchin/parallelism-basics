@@ -22,8 +22,6 @@ public class Main {
             dashThread.start();
             pipeThread.start();
         }
-
-
     }
 }
 
