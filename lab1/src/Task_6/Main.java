@@ -4,12 +4,23 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Counter:");
         testCounter(new Counter());
+        System.out.println();
 
         System.out.println("CounterSyncMethod:");
         testCounter(new CounterSyncMethod());
+        System.out.println();
 
         System.out.println("CounterSyncBlock:");
         testCounter(new CounterSyncBlock());
+        System.out.println();
+
+        System.out.println("CounterLock:");
+        testCounter(new CounterLock());
+        System.out.println();
+
+        System.out.println("CounterAtomic:");
+        testCounter(new CounterAtomic());
+        System.out.println();
     }
 
     public static void testCounter(ICounter counter) {
