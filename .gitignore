@@ -300,3 +300,8 @@ fabric.properties
 # Ignore all local history of files
 .history
 .ionide
+
+.txt
+.pdf
+.doc 
+.docx

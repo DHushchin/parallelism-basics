@@ -17,4 +17,3 @@ public class CounterAtomic implements ICounter {
         return count.get();
     }
 }
-

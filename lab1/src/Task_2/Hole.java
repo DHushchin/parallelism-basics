@@ -37,7 +37,7 @@ public class Hole {
         g2.fill(new Ellipse2D.Double(x, y, XSIZE, YSIZE));
     }
 
-    public boolean contains(int x, int y){
+    public boolean contains(int x, int y) {
         return (x >= this.x) && (x < (this.x + this.XSIZE)) && (y >= this.y) && (y < (this.y + this.YSIZE));
     }
 }

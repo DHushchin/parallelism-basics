@@ -2,7 +2,7 @@ package Task_5;
 
 public class Main {
     public static void main(String[] args) {
-        boolean sync = true;
+        boolean sync = false;
         System.out.println("Sync: " + sync);
 
         if (sync) {

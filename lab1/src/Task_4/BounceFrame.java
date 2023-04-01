@@ -57,7 +57,6 @@ public class BounceFrame extends JFrame {
             t = new BallThread(b, prevThread);
         }
 
-
         t.start();
         b.setThread(t);
         prevThread = t;
