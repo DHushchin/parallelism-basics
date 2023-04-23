@@ -5,11 +5,11 @@ import Multiplier.Matrix;
 
 public class Main {
     public static void main(String[] args) {
-        Matrix A = new Matrix(1000, 1000);
-        Matrix B = new Matrix(1000, 1000);
+        Matrix A = new Matrix(2000, 2000, true);
+        Matrix B = new Matrix(2000, 2000, true);
         Main main = new Main();
-        main.test(A, B, "sequential");
         main.test(A, B, "striped");
+        main.test(A, B, "sequential");
     }
 
     public void test(Matrix A, Matrix B, String multiplierType) {
@@ -21,6 +21,6 @@ public class Main {
         long endTime = System.currentTimeMillis();
 
         Result result = new Result(C, endTime - startTime);
-        result.writeToFile(multiplierType+".txt");
+        result.writeToFile(multiplierType + ".txt");
     }
 }

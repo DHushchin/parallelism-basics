@@ -3,26 +3,24 @@ package Multiplier.Striped;
 import Multiplier.Matrix;
 
 public class StripedThread extends Thread {
-        private final int rowIndex;
-        private final int[] row;
-        private final Matrix B;
-        private final Matrix result;
+    private final int[] rowA;
+    private final int[] rowB;
+    private final int i;
+    private final int j;
+    private final Matrix result;
 
-        public StripedThread(int[] row, int rowIndex, Matrix B, Matrix result) {
-            this.row = row;
-            this.rowIndex = rowIndex;
-            this.B = B;
-            this.result = result;
-        }
+    public StripedThread(Matrix result, int[] rowA, int[] rowB, int i, int j) {
+        this.result = result;
+        this.rowA = rowA;
+        this.rowB = rowB;
+        this.i = i;
+        this.j = j;
+    }
 
-        @Override
-        public void run() {
-            for (int j = 0; j < B.getColumns(); j++) {
-                int temp = 0;
-                for (int i = 0; i < B.getRows(); i++) {
-                    temp += row[i] * B.getElem(i, j);
-                }
-                this.result.setElem(rowIndex, j, temp);
-            }
+    @Override
+    public void run() {
+        for (int k = 0; k < this.rowA.length; k++) {
+             this.result.setElem(i, j, result.getElem(i, j) + rowA[k] * rowB[k]);
         }
     }
+}

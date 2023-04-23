@@ -5,14 +5,16 @@ public class Matrix {
     private int rows;
     private int columns;
 
-    public Matrix(int rows, int columns) {
+    public Matrix(int rows, int columns, boolean generate) {
         this.matrix = new int[rows][columns];
         this.rows = rows;
         this.columns = columns;
-        generateMatrix();
+        if (generate) {
+            generateOneMatrix();
+        }
     }
 
-    private void generateMatrix() {
+    private void generateOneMatrix() {
         for (int i = 0; i < this.matrix.length; i++) {
             for (int j = 0; j < this.matrix[i].length; j++) {
                 this.matrix[i][j] = 1;
@@ -24,14 +26,14 @@ public class Matrix {
         return matrix;
     }
 
-    public void transpose() {
-        int[][] transposedMatrix = new int[this.matrix[0].length][this.matrix.length];
+    public Matrix transpose() {
+        Matrix transposedMatrix = new Matrix(this.columns, this.rows, false);
         for (int i = 0; i < this.matrix.length; i++) {
             for (int j = 0; j < this.matrix[i].length; j++) {
-                transposedMatrix[j][i] = this.matrix[i][j];
+                transposedMatrix.setElem(j, i, this.matrix[i][j]);
             }
         }
-        matrix = transposedMatrix;
+        return transposedMatrix;
     }
 
     public int[] getColumn(int column) {
