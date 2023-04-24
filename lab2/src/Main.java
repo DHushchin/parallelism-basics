@@ -5,8 +5,8 @@ import Multiplier.Matrix;
 
 public class Main {
     public static void main(String[] args) {
-        Matrix A = new Matrix(2000, 2000, true);
-        Matrix B = new Matrix(2000, 2000, true);
+        Matrix A = new Matrix(1000, 1000, true);
+        Matrix B = new Matrix(1000, 1000, true);
         Main main = new Main();
         main.test(A, B, "striped");
         main.test(A, B, "sequential");

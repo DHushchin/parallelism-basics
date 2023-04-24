@@ -19,8 +19,10 @@ public class StripedThread extends Thread {
 
     @Override
     public void run() {
+        int temp = 0;
         for (int k = 0; k < this.rowA.length; k++) {
-             this.result.setElem(i, j, result.getElem(i, j) + rowA[k] * rowB[k]);
+            temp += this.rowA[k] * this.rowB[k];
         }
+        this.result.setElem(this.i, this.j, temp);
     }
 }

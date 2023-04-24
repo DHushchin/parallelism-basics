@@ -24,24 +24,15 @@ public class StripedMultiplier implements IMultiplier {
             columnsB[i] = B.getColumn(i);
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ExecutorService executor = Executors.newFixedThreadPool(100);
         List<Callable<Object>> todo = new ArrayList<>(A.getRows());
 
-        // Кожний процес пам’ятає тільки один рядок матриці А та один стовпчик матриці В на кожній ітерації.
-        // Після кожної ітерації виконується циклічна передача стовпчиків матриці В між процесами
 
         for (int i = 0; i < A.getRows(); i++) {
-            int finalI = i;
-            todo.add(() -> {
-                for (int j = 0; j < B.getColumns(); j++) {
-                    int temp = 0;
-                    for (int k = 0; k < A.getColumns(); k++) {
-                        temp += rowsA[finalI][k] * columnsB[j][k];
-                    }
-                    C.setElem(finalI, j, temp);
-                }
-                return null;
-            });
+            for (int j = 0; j < A.getRows(); j++) {
+                int second_num = (j + i) % A.getRows();
+                todo.add(Executors.callable(new StripedThread(C, rowsA[i], columnsB[second_num], i, j)));
+            }
         }
 
         try {
