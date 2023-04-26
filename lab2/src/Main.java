@@ -22,6 +22,6 @@ public class Main {
         long endTime = System.currentTimeMillis();
 
         Result result = new Result(C, endTime - startTime);
-        result.writeToFile(multiplierType + ".txt");
+        result.writeToFile("data/" + multiplierType + ".txt");
     }
 }
