@@ -10,6 +10,7 @@ public class Main {
         Main main = new Main();
         main.test(A, B, "striped");
         main.test(A, B, "sequential");
+        main.test(A, B, "fox");
     }
 
     public void test(Matrix A, Matrix B, String multiplierType) {

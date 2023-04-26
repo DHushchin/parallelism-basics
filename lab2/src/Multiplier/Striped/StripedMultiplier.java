@@ -12,6 +12,10 @@ import java.util.concurrent.Executors;
 public class StripedMultiplier implements IMultiplier {
     @Override
     public Matrix multiply(Matrix A, Matrix B) {
+
+        if (A.getColumns() != B.getRows())
+            throw new IllegalArgumentException("Multiplier.Matrix A's column count must match matrix B's row count.");
+
         Matrix C = new Matrix(A.getRows(), B.getColumns(), false);
 
         int[][] rowsA = new int[A.getRows()][A.getColumns()];
@@ -31,7 +35,7 @@ public class StripedMultiplier implements IMultiplier {
         for (int i = 0; i < A.getRows(); i++) {
             for (int j = 0; j < A.getRows(); j++) {
                 int second_num = (j + i) % A.getRows();
-                todo.add(Executors.callable(new StripedThread(C, rowsA[i], columnsB[second_num], i, j)));
+                todo.add(Executors.callable(new StripedThread(C, rowsA[i], columnsB[second_num], i, second_num)));
             }
         }
 

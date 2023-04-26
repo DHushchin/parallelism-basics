@@ -12,7 +12,7 @@ public class Factory {
             case "striped":
                 return new StripedMultiplier();
             case "fox":
-                return new FoxMultiplier();
+                return new FoxMultiplier(50);
             default:
                 return null;
         }

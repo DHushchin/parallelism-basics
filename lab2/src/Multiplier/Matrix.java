@@ -1,9 +1,9 @@
 package Multiplier;
 
 public class Matrix {
-    private int[][] matrix;
-    private int rows;
-    private int columns;
+    private final int[][] matrix;
+    private final int rows;
+    private final int columns;
 
     public Matrix(int rows, int columns, boolean generate) {
         this.matrix = new int[rows][columns];
@@ -15,25 +15,19 @@ public class Matrix {
     }
 
     private void generateOneMatrix() {
+//        for (int i = 0; i < this.matrix.length; i++) {
+//            for (int j = 0; j < this.matrix[i].length; j++) {
+//                this.matrix[i][j] = 1;
+//            }
+//        }
+
+        int count = 1;
         for (int i = 0; i < this.matrix.length; i++) {
             for (int j = 0; j < this.matrix[i].length; j++) {
-                this.matrix[i][j] = 1;
+                this.matrix[i][j] = count;
+                count++;
             }
         }
-    }
-
-    public int[][] getMatrix() {
-        return matrix;
-    }
-
-    public Matrix transpose() {
-        Matrix transposedMatrix = new Matrix(this.columns, this.rows, false);
-        for (int i = 0; i < this.matrix.length; i++) {
-            for (int j = 0; j < this.matrix[i].length; j++) {
-                transposedMatrix.setElem(j, i, this.matrix[i][j]);
-            }
-        }
-        return transposedMatrix;
     }
 
     public int[] getColumn(int column) {
@@ -71,5 +65,54 @@ public class Matrix {
 
     public void setElem(int row, int column, int value) {
         this.matrix[row][column] = value;
+    }
+
+    public void setBlock(int row, int col, int[][] block) {
+        int rowStart = row * block.length;
+        int colStart = col * block[0].length;
+
+        for (int i = 0; i < block.length && rowStart + i < rows; i++) {
+            for (int j = 0; j < block[0].length && colStart + j < columns; j++) {
+                matrix[rowStart + i][colStart + j] = block[i][j];
+            }
+        }
+    }
+
+    public int[][] getBlock(int row, int col, int blockSize) {
+        int[][] block = new int[blockSize][blockSize];
+        int rowStart = row * blockSize;
+        int colStart = col * blockSize;
+
+        if (rowStart >= rows || colStart >= columns) {
+            return block;
+        }
+
+        for (int i = 0; i < blockSize && rowStart + i < rows; i++) {
+            for (int j = 0; j < blockSize && colStart + j < columns; j++) {
+                block[i][j] = matrix[rowStart + i][colStart + j];
+            }
+        }
+
+        return block;
+    }
+
+    public int[][][][] getBlocks(int blockSize) {
+        int[][][][] blocks = new int[rows / blockSize][columns / blockSize][blockSize][blockSize];
+
+        for (int i = 0; i < rows / blockSize; i++) {
+            for (int j = 0; j < columns / blockSize; j++) {
+                blocks[i][j] = getBlock(i, j, blockSize);
+            }
+        }
+
+        return blocks;
+    }
+
+    public void setBlocks(int[][][][] blocks, int blockSize) {
+        for (int i = 0; i < rows / blockSize; i++) {
+            for (int j = 0; j < columns / blockSize; j++) {
+                setBlock(i, j, blocks[i][j]);
+            }
+        }
     }
 }
