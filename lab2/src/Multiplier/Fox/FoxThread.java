@@ -3,8 +3,9 @@ package Multiplier.Fox;
 import Multiplier.Matrix;
 
 import java.util.Arrays;
+import java.util.concurrent.Callable;
 
-public class FoxThread extends Thread {
+public class FoxThread implements Callable<Object> {
     private final int[][][][] ABlocks;
     private final int[][][][] BBlocks;
     private final int[][][][] CBlocks;
@@ -22,7 +23,7 @@ public class FoxThread extends Thread {
     }
 
     @Override
-    public void run() {
+    public Object call() {
         int blockSize = ABlocks[0][0].length;
 
         int[][] a = ABlocks[i][j];
@@ -38,5 +39,7 @@ public class FoxThread extends Thread {
         }
 
         CBlocks[i][k] = c;
+
+        return null;
     }
 }

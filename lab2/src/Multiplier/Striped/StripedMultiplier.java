@@ -10,6 +10,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class StripedMultiplier implements IMultiplier {
+
+    private final int threads;
+
+    public StripedMultiplier(int threads) {
+        this.threads = threads;
+    }
     @Override
     public Matrix multiply(Matrix A, Matrix B) {
 
@@ -28,7 +34,7 @@ public class StripedMultiplier implements IMultiplier {
             columnsB[i] = B.getColumn(i);
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(100);
+        ExecutorService executor = Executors.newFixedThreadPool(this.threads);
         List<Callable<Object>> todo = new ArrayList<>(A.getRows());
 
 
@@ -50,4 +56,3 @@ public class StripedMultiplier implements IMultiplier {
         return C;
     }
 }
-

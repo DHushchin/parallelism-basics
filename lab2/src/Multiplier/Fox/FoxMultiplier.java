@@ -11,9 +11,11 @@ import java.util.concurrent.Executors;
 
 public class FoxMultiplier implements IMultiplier {
     private final int blockSize;
+    private final int threads;
 
-    public FoxMultiplier(int blockSize) {
+    public FoxMultiplier(int blockSize, int threads) {
         this.blockSize = blockSize;
+        this.threads = threads;
     }
 
     @Override
@@ -21,7 +23,7 @@ public class FoxMultiplier implements IMultiplier {
         int n = A.getRows();
         Matrix C = new Matrix(n, n, false);
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ExecutorService executor = Executors.newFixedThreadPool(threads);
         List<Callable<Object>> todo = new ArrayList<>();
 
         int numBlocks = n / blockSize;
@@ -33,7 +35,7 @@ public class FoxMultiplier implements IMultiplier {
         for (int i = 0; i < numBlocks; i++) {
             for (int j = 0; j < numBlocks; j++) {
                 for (int k = 0; k < numBlocks; k++) {
-                    todo.add(Executors.callable(new FoxThread(ABlocks, BBlocks, CBlocks, i, j, k)));
+                    todo.add(new FoxThread(ABlocks, BBlocks, CBlocks, i, j, k));
                 }
             }
         }
