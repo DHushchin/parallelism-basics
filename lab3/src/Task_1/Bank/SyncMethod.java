@@ -14,26 +14,11 @@ public class SyncMethod implements IBank {
     }
 
     public synchronized void transfer(int from, int to, int amount) {
-        long startTime = System.currentTimeMillis();
-        long elapsedTime = 0;
-
         while(accounts[from] < amount){
             try {
-                long remainingTime = 5000 - elapsedTime;
-
-                if (remainingTime <= 0) {
-                    Thread.currentThread().interrupt();
-                    return;
-                }
-
-                wait(remainingTime);
-                elapsedTime = System.currentTimeMillis() - startTime;
+                wait();
             } catch (InterruptedException e) {
-                // Если поток был прерван во время ожидания
-                if (Thread.currentThread().isInterrupted()) {
-                    System.out.println("Thread interrupted");
-                    return;
-                }
+                e.printStackTrace();
             }
         }
 

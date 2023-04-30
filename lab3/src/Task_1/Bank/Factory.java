@@ -6,7 +6,7 @@ public class Factory {
         return switch (type) {
             case "SyncMethod" -> new SyncMethod(numAccounts, initialBalance, TEST_TRANSACTION_COUNT);
             case "SyncBlock" -> new SyncBlock(numAccounts, initialBalance, TEST_TRANSACTION_COUNT);
-//            case "ReentrantLock" -> new ReentrantLock(numAccounts, initialBalance);
+            case "ReentrantLock" -> new ReLock(numAccounts, initialBalance, TEST_TRANSACTION_COUNT);
             case "NoSync" -> new NoSync(numAccounts, initialBalance, TEST_TRANSACTION_COUNT);
             default -> null;
         };

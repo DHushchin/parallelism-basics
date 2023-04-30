@@ -9,15 +9,16 @@ public class AsyncBankTest {
     public static final int INITIAL_BALANCE = 10000;
     public static void main(String[] args) {
         AsyncBankTest test = new AsyncBankTest();
-        test.test("NoSync", true);
-        test.test("SyncMethod", true);
-        test.test("SyncBlock", true);
+        test.test("NoSync");
+//        test.test("SyncMethod");
+//        test.test("SyncBlock");
+//        test.test("ReentrantLock");
     }
-
-    public void test(String type, boolean print) {
+//
+    public void test(String type) {
         long startTime = System.currentTimeMillis();
         System.out.println(type);
-        IBank b = new Factory().getBank(type, ACCOUNTS, INITIAL_BALANCE);
+        IBank b = Factory.getBank(type, ACCOUNTS, INITIAL_BALANCE);
 
         ArrayList<TransferThread> threads = new ArrayList<>();
 
@@ -28,7 +29,7 @@ public class AsyncBankTest {
             threads.add(thread);
         }
 
-        for (Thread thread : threads) {
+        for (TransferThread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
