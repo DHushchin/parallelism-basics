@@ -1,8 +1,5 @@
 package Multiplier.Fox;
 
-import Multiplier.Matrix;
-
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 public class FoxThread implements Callable<Object> {

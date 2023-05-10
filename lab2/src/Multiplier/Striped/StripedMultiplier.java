@@ -41,7 +41,7 @@ public class StripedMultiplier implements IMultiplier {
         for (int i = 0; i < A.getRows(); i++) {
             for (int j = 0; j < A.getRows(); j++) {
                 int second_num = (j + i) % A.getRows();
-                todo.add(Executors.callable(new StripedThread(C, rowsA[i], columnsB[second_num], i, second_num)));
+                todo.add(new StripedThread(C, rowsA[i], columnsB[second_num], i, second_num));
             }
         }
 

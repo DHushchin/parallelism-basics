@@ -1,8 +1,9 @@
 package Multiplier.Striped;
 
 import Multiplier.Matrix;
+import java.util.concurrent.Callable;
 
-public class StripedThread extends Thread {
+public class StripedThread implements Callable<Object> {
     private final int[] rowA;
     private final int[] rowB;
     private final int i;
@@ -18,11 +19,12 @@ public class StripedThread extends Thread {
     }
 
     @Override
-    public void run() {
+    public Object call() {
         int temp = 0;
         for (int k = 0; k < this.rowA.length; k++) {
             temp += this.rowA[k] * this.rowB[k];
         }
         this.result.setElem(this.i, this.j, temp);
+        return null;
     }
 }
