@@ -4,13 +4,21 @@ import java.util.ArrayList;
 
 public class Group {
     private final ArrayList<Student> students;
-    private final String groupName;
+    private final int id;
 
-    public Group(String groupName, ArrayList<Student> students) {
+    public Group(int id, ArrayList<Student> students) {
         this.students = students;
-        this.groupName = groupName;
+        this.id = id;
     }
-    public ArrayList<Student> getStudents() {
-        return students;
+    public Student getStudent(int id) {
+        return students.get(id);
+    }
+
+    public int getStudentsNumber() {
+        return students.size();
+    }
+
+    public int getId() {
+        return id;
     }
 }

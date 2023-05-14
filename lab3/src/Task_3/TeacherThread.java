@@ -16,13 +16,17 @@ public class TeacherThread extends Thread {
     }
 
     public void run() {
-        int numStudents = journal.getStudentsNumber(groupIndex);
-        int[] grades = new int[numStudents];
+        int numStudents = journal.getGroups().get(groupIndex).getStudentsNumber();
         for (int studentIndex = 0; studentIndex < numStudents; studentIndex++) {
-            grades[studentIndex] = (int) (Math.random() * MAX_GRADE) + 1;
+            int grade = teacher.getGrade();
+            journal.addGrade(grade, week, groupIndex, studentIndex);
+            System.out.printf("%-12s %-14s week %-8d group %-10d student %-10d grade %-10d\n",
+                    teacher.getName(), teacher.getPosition(), week, groupIndex, studentIndex, grade);
+            try {
+                Thread.sleep(0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        journal.addGrades(grades, week - 1, groupIndex);
-        System.out.printf("%-12s %-14s week %-8d group %-10d%n",
-                teacher.getName(), teacher.getPosition(), week, groupIndex);
     }
 }

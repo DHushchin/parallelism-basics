@@ -10,11 +10,11 @@ public class AsyncBankTest {
     public static void main(String[] args) {
         AsyncBankTest test = new AsyncBankTest();
         test.test("NoSync");
-//        test.test("SyncMethod");
-//        test.test("SyncBlock");
-//        test.test("ReentrantLock");
+        test.test("SyncMethod");
+        test.test("SyncBlock");
+        test.test("ReentrantLock");
     }
-//
+
     public void test(String type) {
         long startTime = System.currentTimeMillis();
         System.out.println(type);
