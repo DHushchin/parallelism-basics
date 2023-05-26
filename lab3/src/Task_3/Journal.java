@@ -1,13 +1,13 @@
 package Task_3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Journal {
     private final ArrayList<Group> groups;
     private final int weeks;
-    // ConcurrentHashMap for grades of each student (week, group, student)
-    private final ConcurrentHashMap<String, Integer> grades = new ConcurrentHashMap<>();
+    private final HashMap<String, ConcurrentHashMap<Integer, Integer>> grades = new HashMap<>();
 
     public Journal(ArrayList<Group> groups, int weeks) {
         this.groups = groups;
@@ -15,33 +15,37 @@ public class Journal {
     }
 
     public void addGrade(int grade, int week, int groupIndex, int studentIndex) {
-        String key = getKey(week, groupIndex, studentIndex);
-        grades.put(key, grade);
+        Group group = groups.get(groupIndex);
+        Student student = group.getStudent(studentIndex);
+        String key = student.getId() + "-" + group.id();
+        ConcurrentHashMap<Integer, Integer> weekGrades = grades.computeIfAbsent(key, k -> new ConcurrentHashMap<>());
+        weekGrades.put(week, grade);
     }
 
     public int getGrade(int week, int groupIndex, int studentIndex) {
-        String key = getKey(week, groupIndex, studentIndex);
-        Integer grade = grades.get(key);
-        return grade != null ? grade : -1; // return -1 if grade is not set
+        Group group = groups.get(groupIndex);
+        Student student = group.getStudent(studentIndex);
+        String key = student.getId() + "-" + group.id();
+        ConcurrentHashMap<Integer, Integer> weekGrades = grades.get(key);
+        if (weekGrades != null) {
+            return weekGrades.getOrDefault(week, -1);
+        }
+        return -1;
     }
 
-    private String getKey(int week, int groupIndex, int studentIndex) {
-        int groupId = groups.get(groupIndex).getId();
-        int studentId = groups.get(groupIndex).getStudent(studentIndex).getId();
-        return week + "," + groupId + "," + studentId;
-    }
     public int getWeeks() {
         return weeks;
     }
+
     public ArrayList<Group> getGroups() {
         return groups;
     }
+
     public void printGrades() {
         System.out.println("\nJournal\n");
 
-        for (int groupIndex = 0; groupIndex < groups.size(); groupIndex++) {
-
-            System.out.println("Group " + groupIndex);
+        for (Group group : groups) {
+            System.out.println("Group " + group.id());
 
             for (int week = 1; week <= weeks; week++) {
                 if (week == 1) {
@@ -52,10 +56,11 @@ public class Journal {
 
             System.out.println();
 
-            for (int studentIndex = 0; studentIndex < groups.get(groupIndex).getStudentsNumber(); studentIndex++) {
-                System.out.print("Student " + studentIndex + ":  ");
-                for (int week = 0; week < weeks; week++) {
-                    System.out.printf("%-10d", getGrade(week, groupIndex, studentIndex));
+            for (Student student : group.students()) {
+                System.out.print("Student " + student.getId() + ":  ");
+                for (int week = 1; week <= weeks; week++) {
+                    int grade = getGrade(week, group.id(), student.getId());
+                    System.out.printf("%-10d", grade);
                 }
                 System.out.println();
             }
@@ -63,3 +68,4 @@ public class Journal {
         }
     }
 }
+

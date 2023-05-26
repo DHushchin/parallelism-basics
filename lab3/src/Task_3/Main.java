@@ -7,9 +7,9 @@ public class Main {
     public static ArrayList<Teacher> createTeachers() {
         ArrayList<Teacher> teachers = new ArrayList<>();
         Teacher lecturer = new Teacher("John", "Lecturer");
-        Teacher assistant_1 = new Teacher("Jane", "Assistant");
-        Teacher assistant_2 = new Teacher("Jack", "Assistant");
-        Teacher assistant_3 = new Teacher("Jill", "Assistant");
+        Teacher assistant_1 = new Teacher("Alex", "Assistant");
+        Teacher assistant_2 = new Teacher("Sara", "Assistant");
+        Teacher assistant_3 = new Teacher("Mike", "Assistant");
 
         teachers.add(lecturer);
         teachers.add(assistant_1);
@@ -42,13 +42,10 @@ public class Main {
 
         System.out.printf("%-12s %-14s %-13s %-16s %-18s %-10s\n",
                 "Teacher", "Position", "Week", "Group", "Student", "Grade");
-        for (int week = 0; week < journal.getWeeks(); week++) {
-            for (int groupIndex = 0; groupIndex < groups.size(); groupIndex++) {
-                for (Teacher teacher : teachers) {
-                    TeacherThread teacherThread = new TeacherThread(teacher, journal, week, groupIndex);
-                    teacherThreads.add(teacherThread);
-                }
-            }
+
+        for (Teacher teacher : teachers) {
+            TeacherThread teacherThread = new TeacherThread(teacher, journal, groups);
+            teacherThreads.add(teacherThread);
         }
 
         for (TeacherThread teacherThread : teacherThreads) {
