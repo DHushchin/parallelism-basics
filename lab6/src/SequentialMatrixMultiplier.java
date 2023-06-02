@@ -12,15 +12,15 @@ public class SequentialMatrixMultiplier {
 
         MatrixHelper.initMatrices(A, B, RANDOMIZE_MATRICES);
 
-        long startTime = System.nanoTime();
+        long startTime = System.currentTimeMillis();
         Matrix C = multiply(A, B);
-        long endTime = System.nanoTime();
+        long endTime = System.currentTimeMillis();
 
         if (PRINT_RESULT) {
             MatrixHelper.printResult(A, B, C);
         }
 
-        System.out.println("SequentialMatrixMultiplier has finished in " + (endTime - startTime) / 1000000 + " ms.");
+        System.out.println("SequentialMatrixMultiplier has finished in " + (endTime - startTime) + "ms.");
     }
 
     public static boolean validateResult(Matrix A, Matrix B, Matrix C) {
