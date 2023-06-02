@@ -1,9 +1,9 @@
 import mpi.MPI;
 
 public class BlockingMatrixMultiplier {
-    public static int A_ROWS = 1500;
-    public static int A_COLS = 1500;
-    public static int B_COLS = 1500;
+    public static int A_ROWS = 1000;
+    public static int A_COLS = 1000;
+    public static int B_COLS = 1000;
     public static int MASTER = 0;
     public enum Tags {
         FROM_MASTER_TAG,
@@ -16,13 +16,12 @@ public class BlockingMatrixMultiplier {
 
 
     public static void main(String[] args) {
-
-        int[] rows = {0}, offset = {0};
         Matrix A = new Matrix(A_ROWS, A_COLS);
         Matrix B = new Matrix(A_COLS, B_COLS);
         Matrix C = new Matrix(A_ROWS, B_COLS);
 
         MPI.Init(args);
+        int[] rows = {0}, offset = {0};
         int taskId = MPI.COMM_WORLD.Rank();
         int tasksNumber = MPI.COMM_WORLD.Size();
         int workersNumber = tasksNumber - 1;
@@ -57,11 +56,11 @@ public class BlockingMatrixMultiplier {
                 MPI.COMM_WORLD.Recv(C.data, offset[0], rows[0], MPI.OBJECT, source, Tags.FROM_WORKER_TAG.ordinal());
             }
 
-            long endTime = System.currentTimeMillis();
-
             if (PRINT_RESULT) {
                 MatrixHelper.printResult(A, B, C);
             }
+
+            long endTime = System.currentTimeMillis();
 
             System.out.println("Execution time: " + (endTime - startTime) + "ms");
 
@@ -90,5 +89,4 @@ public class BlockingMatrixMultiplier {
 
         MPI.Finalize();
     }
-
 }

@@ -3,9 +3,9 @@ import mpi.Request;
 
 import java.util.ArrayList;
 public class NonBlockingMatrixMultiplier {
-    public static int A_ROWS = 1500;
-    public static int A_COLS = 1500;
-    public static int B_COLS = 1500;
+    public static int A_ROWS = 2000;
+    public static int A_COLS = 2000;
+    public static int B_COLS = 2000;
     public static int MASTER = 0;
     public enum Tags {
         A_FROM_MASTER,
@@ -22,13 +22,12 @@ public class NonBlockingMatrixMultiplier {
     public static boolean VALIDATE_RESULT = true;
 
     public static void main(String[] args) {
-
-        int[] rows = {0}, offset = {0};
         Matrix A = new Matrix(A_ROWS, A_COLS);
         Matrix B = new Matrix(A_COLS, B_COLS);
         Matrix C = new Matrix(A_ROWS, B_COLS);
 
         MPI.Init(args);
+        int[] rows = {0}, offset = {0};
         int taskId = MPI.COMM_WORLD.Rank();
         int tasksNumber = MPI.COMM_WORLD.Size();
         int workersNumber = tasksNumber - 1;
@@ -106,6 +105,7 @@ public class NonBlockingMatrixMultiplier {
 
             MPI.COMM_WORLD.Isend(C.data, 0, rows[0], MPI.OBJECT, MASTER, Tags.C_FROM_WORKER.ordinal());
         }
+
         MPI.Finalize();
     }
 }

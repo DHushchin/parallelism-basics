@@ -1,7 +1,7 @@
 public class SequentialMatrixMultiplier {
-    public static int A_ROWS = 1000;
-    public static int A_COLS = 1000;
-    public static int B_COLS = 1000;
+    public static int A_ROWS = 500;
+    public static int A_COLS = 500;
+    public static int B_COLS = 500;
 
     public static boolean PRINT_RESULT = false;
     public static boolean RANDOMIZE_MATRICES = false;
@@ -26,8 +26,8 @@ public class SequentialMatrixMultiplier {
     public static boolean validateResult(Matrix A, Matrix B, Matrix C) {
         Matrix D = multiply(A, B);
 
-        for (int i = 0; i < A_ROWS; i++)
-            for (int j = 0; j < B_COLS; j++)
+        for (int i = 0; i < A.rows; i++)
+            for (int j = 0; j < B.cols; j++)
                 if (C.data[i][j] != D.data[i][j])
                     return false;
 
