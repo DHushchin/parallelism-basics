@@ -11,7 +11,7 @@ public class Main {
         ForkJoinPool pool = new ForkJoinPool();
 
         String root = System.getProperty("user.dir") + "/src/FileAnalyser";
-        File directory = new File(root + "/data/IT");
+        File directory = new File(root + "/Data/IT");
 
         // Task 1: word length analysis
         wordLengthAnalysis(pool, directory);
