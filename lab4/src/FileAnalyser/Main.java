@@ -17,10 +17,10 @@ public class Main {
         wordLengthAnalysis(pool, directory);
 
         // Task 2: common words search
-//        commonWordsSearch(pool, directory);
+        commonWordsSearch(pool, directory);
 
         // Task 3: keyword search
-//        keywordSearch(pool, directory);
+        keywordSearch(pool, directory);
     }
 
     public static void wordLengthAnalysis(ForkJoinPool pool, File directory) {
@@ -47,6 +47,7 @@ public class Main {
         CommonWordsAnalyser commonWordsAnalyser = new CommonWordsAnalyser(directory);
         pool.invoke(commonWordsAnalyser);
         Set<String> commonWords = commonWordsAnalyser.getCommonWords();
+        System.out.println();
         System.out.println("Common words: " + commonWords);
         long endTime = System.currentTimeMillis();
         System.out.println("Parallel time: " + (endTime - startTime) + " ms");
@@ -60,6 +61,7 @@ public class Main {
         KeywordSearchAnalyser keywordSearchAnalyser = new KeywordSearchAnalyser(directory, keywords);
         pool.invoke(keywordSearchAnalyser);
         Set<String> documentsWithKeywords = keywordSearchAnalyser.getDocumentsWithKeywords();
+        System.out.println();
         System.out.println("Documents with keywords: " + documentsWithKeywords);
         long endTime = System.currentTimeMillis();
         System.out.println("Parallel time: " + (endTime - startTime) + " ms");
