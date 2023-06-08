@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CommonWordsAnalyser extends TextAnalyser {
-    private Set<String> commonWords = new HashSet<>();
+    private static Set<String> commonWords = new HashSet<>();
 
     public CommonWordsAnalyser(File directory) {
         super(directory);
@@ -24,26 +24,16 @@ public class CommonWordsAnalyser extends TextAnalyser {
 
     @Override
     protected void analyseFile(File file) {
-        if (file.isDirectory()) {
-            File[] subFiles = file.listFiles();
-            if (subFiles != null) {
-                for (File subFile : subFiles) {
-                    analyseFile(subFile);
-                }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            Set<String> setWords = new HashSet<>();
+            while ((line = reader.readLine()) != null) {
+                List<String> words = getWords(line);
+                setWords.addAll(words);
             }
-        } else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                Set<String> setWords = new HashSet<>();
-                while ((line = reader.readLine()) != null) {
-                    List<String> words = getWords(line);
-                    setWords.addAll(words);
-                }
-
-                processCommonWords(setWords);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            processCommonWords(setWords);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class KeywordSearchAnalyser extends TextAnalyser {
     private List<String> keywords;
-    private Set<String> documentsWithKeywords = new HashSet<>();
+    private static Set<String> documentsWithKeywords = new HashSet<>();
 
     public KeywordSearchAnalyser(File directory, List<String> keywords) {
         super(directory);
@@ -27,27 +27,16 @@ public class KeywordSearchAnalyser extends TextAnalyser {
 
     @Override
     protected void analyseFile(File file) {
-        if (file.isDirectory()) {
-            File[] subFiles = file.listFiles();
-            if (subFiles != null) {
-                for (File subFile : subFiles) {
-                    analyseFile(subFile);
-                }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            Set<String> setWords = new HashSet<>();
+            while ((line = reader.readLine()) != null) {
+                List<String> words = getWords(line);
+                setWords.addAll(words);
             }
-        } else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                Set<String> setWords = new HashSet<>();
-
-                while ((line = reader.readLine()) != null) {
-                    List<String> words = getWords(line);
-                    setWords.addAll(words);
-                }
-
-                processKeywords(setWords, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            processKeywords(setWords, file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

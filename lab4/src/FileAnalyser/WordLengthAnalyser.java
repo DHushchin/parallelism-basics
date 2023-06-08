@@ -19,7 +19,6 @@ public class WordLengthAnalyser extends TextAnalyser {
         super(directory);
     }
 
-
     public void calculateStatistics() {
         setWordCount();
         setWordLengthSum();
@@ -36,23 +35,14 @@ public class WordLengthAnalyser extends TextAnalyser {
 
     @Override
     protected void analyseFile(File file) {
-        if (file.isDirectory()) {
-            File[] subFiles = file.listFiles();
-            if (subFiles != null) {
-                for (File subFile : subFiles) {
-                    analyseFile(subFile);
-                }
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                List<String> words = getWords(line);
+                processWordLength(words);
             }
-        } else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    List<String> words = getWords(line);
-                    processWordLength(words);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -26,9 +26,10 @@ public abstract class TextAnalyser extends RecursiveAction {
                 TextAnalyser subTask = createSubTask(file);
                 subTasks.add(subTask);
                 subTask.fork();
+            } else {
+                System.out.println("Analyzing file: " + file.getAbsolutePath());
+                analyseFile(file);
             }
-            System.out.println("Analyzing file: " + file.getAbsolutePath());
-            analyseFile(file);
         }
 
         for (TextAnalyser subTask : subTasks) {

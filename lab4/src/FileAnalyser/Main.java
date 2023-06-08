@@ -14,10 +14,10 @@ public class Main {
         File directory = new File(root + "/Data/IT");
 
         // Task 1: word length analysis
-        wordLengthAnalysis(pool, directory);
-
+//        wordLengthAnalysis(pool, directory);
+//
         // Task 2: common words search
-        commonWordsSearch(pool, directory);
+//        commonWordsSearch(pool, directory);
 
         // Task 3: keyword search
         keywordSearch(pool, directory);
@@ -57,7 +57,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
 //        List<String> keywords = Arrays.asList("software", "hardware", "programming", "language", "computer",
 //                "algorithm", "data", "structure", "science", "technology", "internet", "network", "database");
-        List<String> keywords = Arrays.asList("algol");
+        List<String> keywords = Arrays.asList("network");
         KeywordSearchAnalyser keywordSearchAnalyser = new KeywordSearchAnalyser(directory, keywords);
         pool.invoke(keywordSearchAnalyser);
         Set<String> documentsWithKeywords = keywordSearchAnalyser.getDocumentsWithKeywords();
